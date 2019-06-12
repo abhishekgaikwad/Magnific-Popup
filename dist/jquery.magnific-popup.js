@@ -1,6 +1,6 @@
-/*! Magnific Popup - v1.1.0 - 2016-02-20
+/*! Magnific Popup - v1.1.0 - 2019-06-12
 * http://dimsemenov.com/plugins/magnific-popup/
-* Copyright (c) 2016 Dmitry Semenov; */
+* Copyright (c) 2019 Dmitry Semenov; */
 ;(function (factory) { 
 if (typeof define === 'function' && define.amd) { 
  // AMD. Register as an anonymous module. 
@@ -712,7 +712,7 @@ MagnificPopup.prototype = {
 	// "target" is an element that was clicked
 	_checkIfClose: function(target) {
 
-		if($(target).hasClass(PREVENT_CLOSE_CLASS)) {
+		if($(target).closest('.' + PREVENT_CLOSE_CLASS).length) {
 			return;
 		}
 
@@ -723,8 +723,12 @@ MagnificPopup.prototype = {
 			return true;
 		} else {
 
+			if (this.contentClickInitiated == true) {
+				return false;
+			}
+
 			// We close the popup if click is on close button or on preloader. Or if there is no content.
-			if(!mfp.content || $(target).hasClass('mfp-close') || (mfp.preloader && target === mfp.preloader[0]) ) {
+			if(!mfp.content || $(target).closest('.mfp-close').length || (mfp.preloader && target === mfp.preloader[0]) ) {
 				return true;
 			}
 

@@ -706,6 +706,10 @@ MagnificPopup.prototype = {
 			return true;
 		} else {
 
+			if (this.contentClickInitiated == true) {
+				return false;
+			}
+
 			// We close the popup if click is on close button or on preloader. Or if there is no content.
 			if(!mfp.content || $(target).closest('.mfp-close').length || (mfp.preloader && target === mfp.preloader[0]) ) {
 				return true;
