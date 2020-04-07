@@ -5,6 +5,8 @@
  * Run 'grunt watch' to automatically regenerate '_site' when you change files in 'src' or in 'website'
  * 
  */
+const sass = require('node-sass');
+
 
 module.exports = function(grunt) {
 
@@ -32,7 +34,11 @@ module.exports = function(grunt) {
       files: ['dist']
     },
     
-    sass: {                            
+    sass: {        
+      options: {
+        implementation: sass,
+        sourceMap: false
+      },                    
       dist: {                      
         files: {      
           'dist/magnific-popup.css': 'src/css/main.scss'

@@ -203,13 +203,13 @@ MagnificPopup.prototype = {
 		if(!mfp.bgOverlay) {
 
 			// Dark overlay
-			mfp.bgOverlay = _getEl('bg').on('click'+EVENT_NS, function() {
-				mfp.close();
+			mfp.bgOverlay = _getEl('bg').on('click'+EVENT_NS, function(e) {
+				mfp.close(e);
 			});
 
 			mfp.wrap = _getEl('wrap').attr('tabindex', -1).on('click'+EVENT_NS, function(e) {
 				if(mfp._checkIfClose(e.target)) {
-					mfp.close();
+					mfp.close(e);
 				}
 			});
 
@@ -275,7 +275,7 @@ MagnificPopup.prototype = {
 			// Close on ESC key
 			_document.on('keyup' + EVENT_NS, function(e) {
 				if(e.keyCode === 27) {
-					mfp.close();
+					mfp.close(e);
 				}
 			});
 		}
@@ -367,7 +367,7 @@ MagnificPopup.prototype = {
 	/**
 	 * Closes the popup
 	 */
-	close: function() {
+	close: function(event) {
 		if(!mfp.isOpen) return;
 		_mfpTrigger(BEFORE_CLOSE_EVENT);
 
@@ -376,17 +376,17 @@ MagnificPopup.prototype = {
 		if(mfp.st.removalDelay && !mfp.isLowIE && mfp.supportsTransition )  {
 			mfp._addClassToMFP(REMOVING_CLASS);
 			setTimeout(function() {
-				mfp._close();
+				mfp._close(event);
 			}, mfp.st.removalDelay);
 		} else {
-			mfp._close();
+			mfp._close(event);
 		}
 	},
 
 	/**
 	 * Helper for close() function
 	 */
-	_close: function() {
+	_close: function(event) {
 		_mfpTrigger(CLOSE_EVENT);
 
 		var classesToRemove = REMOVING_CLASS + ' ' + READY_CLASS + ' ';
@@ -827,8 +827,8 @@ $.magnificPopup = {
 		return this.instance.open(options);
 	},
 
-	close: function() {
-		return $.magnificPopup.instance && $.magnificPopup.instance.close();
+	close: function(event) {
+		return $.magnificPopup.instance && $.magnificPopup.instance.close(event);
 	},
 
 	registerModule: function(name, module) {
